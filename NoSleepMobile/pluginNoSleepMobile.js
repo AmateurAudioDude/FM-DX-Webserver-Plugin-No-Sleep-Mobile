@@ -56,7 +56,7 @@ setupTapEffect();
 		}
 	}, false);
 
-    // Function to copy background colour for plugin outside #wrapper-outer
+    // Function to copy background colour to target elements
     function copyBackgroundColorNoSleepMobile(sourceIdNoSleepMobile, targetIdsNoSleepMobile) {
         const sourceElementNoSleepMobile = document.getElementById(sourceIdNoSleepMobile);
         if (sourceElementNoSleepMobile) {
@@ -70,24 +70,35 @@ setupTapEffect();
                         targetElementNoSleepMobile.style.backgroundColor = backgroundColorNoSleepMobile;
                     }
                 });
-
-                // Stop checking once rgba background colour is detected and applied
-                clearInterval(checkIntervalRgbaNoSleepMobile);
             }
         }
     }
 
-    // Set a timer to stop checking
-    setTimeout(() => {
-        clearInterval(checkIntervalRgbaNoSleepMobile);
-    }, 15000);
+    // Callback function for MutationObserver
+    function handleMutations(mutationsList) {
+        for (const mutation of mutationsList) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                copyBackgroundColorNoSleepMobile('wrapper-outer', ['plugin-no-sleep-mobile']);
+            }
+        }
+    }
 
-    // Once the DOM is fully loaded, start checking the background colour immediately
+    // Create an observer instance linked to the callback function
+    const observer = new MutationObserver(handleMutations);
+
+    // Once the DOM is fully loaded, set up the observer
     window.addEventListener('DOMContentLoaded', (event) => {
-        checkIntervalRgbaNoSleepMobile = setInterval(() => {
+        const targetNode = document.getElementById('wrapper-outer');
+        if (targetNode) {
+            // Start observing the target node for attribute changes
+            observer.observe(targetNode, { attributes: true, attributeFilter: ['style'] });
+            // Initial check in case the background colour is already rgba when DOM is loaded
             copyBackgroundColorNoSleepMobile('wrapper-outer', ['plugin-no-sleep-mobile']);
-        }, 100);
-        // Initial check in case the background colour is already rgba when DOM is loaded
-        copyBackgroundColorNoSleepMobile('wrapper-outer', ['plugin-no-sleep-mobile']);
+        }
+
+        // Stop observing after a set time
+        setTimeout(() => {
+            observer.disconnect();
+        }, 300000);
     });
 }
