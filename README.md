@@ -7,6 +7,10 @@ This plugin adds a button to the bottom of your FM-DX-Webserver page, preventing
 * Restart FM-DX-Webserver if required
 * Login to Adminstrator Panel and enable plugin
 
+v1.0.3
+------
+* Fix for FM-DX Webserver v1.3.5 compatibility issues
+
 v1.0.2
 ------
 * Fix for FM-DX Webserver v1.2.4 compatibility issues
