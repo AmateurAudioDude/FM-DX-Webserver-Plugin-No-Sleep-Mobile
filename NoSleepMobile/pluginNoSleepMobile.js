@@ -1,5 +1,5 @@
 /*
-	No Sleep Mobile v1.0.2 by AAD
+	No Sleep Mobile v1.0.3 by AAD
 	https://github.com/AmateurAudioDude/FM-DX-Webserver-Plugin-No-Sleep-Mobile
 */
 
@@ -15,11 +15,11 @@ const buttonHTML = `
 <div id="plugin-no-sleep-mobile" style="height: 60px">
     <input type="button" id="toggleAwake" value="Screen Wake Disabled"
            style="background-color: var(--color-2); opacity: .8; border: none;
-                  color: var(--color-5); padding: 10px 22px; text-align: center;
+                  color: var(--color-5); padding: 8px 20px; text-align: center;
                   text-decoration: none; display: inline-block; font-size: 18px;
-                  margin: -16px 0 0 0; position: absolute; left: 50%;
+                  margin: 8px 0 0 0; position: absolute; left: 50%;
                   -ms-transform: translate(-50%, -50%); transform: translate(-50%, -50%);
-                  text-transform: uppercase; border-radius: 14px">
+                  text-transform: uppercase; border-radius: 14px;">
 </div>`;
 
 // Write HTML content
@@ -40,65 +40,52 @@ function setupTapEffect() {
 
 setupTapEffect();
 
-	var noSleep = new NoSleep();
+    let noSleep = new NoSleep();
 
-	var wakeLockEnabled = false;
-	var toggleEl = document.querySelector("#toggleAwake");
-	toggleEl.addEventListener('click', function() {
-		if (!wakeLockEnabled) {
-		noSleep.enable();
-		wakeLockEnabled = true;
-		toggleEl.value = "Screen Wake Enabled";
-		} else {
-		noSleep.disable();
-		wakeLockEnabled = false;
-		toggleEl.value = "Screen Wake Disabled";
-		}
-	}, false);
+    let wakeLockEnabled = false;
+    let toggleEl = document.querySelector("#toggleAwake");
+    toggleEl.addEventListener('click', function() {
+        if (!wakeLockEnabled) {
+            noSleep.enable();
+            wakeLockEnabled = true;
+            toggleEl.value = "Screen Wake Enabled";
+        } else {
+            noSleep.disable();
+            wakeLockEnabled = false;
+            toggleEl.value = "Screen Wake Disabled";
+        }
+    }, false);
 
-    // Function to copy background colour to target elements
-    function copyBackgroundColorNoSleepMobile(sourceIdNoSleepMobile, targetIdsNoSleepMobile) {
-        const sourceElementNoSleepMobile = document.getElementById(sourceIdNoSleepMobile);
-        if (sourceElementNoSleepMobile) {
-            const sourceStyleNoSleepMobile = window.getComputedStyle(sourceElementNoSleepMobile);
-            const backgroundColorNoSleepMobile = sourceStyleNoSleepMobile.backgroundColor;
+    // Function to copy background colour
+    function copyBackgroundColor() {
+        const wrapperOuter = document.querySelector('.wrapper-outer');
+        const pluginUserRequests = document.getElementById('plugin-no-sleep-mobile');
 
-            if (backgroundColorNoSleepMobile.includes('rgba')) {
-                targetIdsNoSleepMobile.forEach(targetIdNoSleepMobile => {
-                    const targetElementNoSleepMobile = document.getElementById(targetIdNoSleepMobile);
-                    if (targetElementNoSleepMobile) {
-                        targetElementNoSleepMobile.style.backgroundColor = backgroundColorNoSleepMobile;
-                    }
-                });
-            }
+        if (wrapperOuter && pluginUserRequests) {
+            const backgroundColor = getComputedStyle(wrapperOuter).backgroundColor;
+            pluginUserRequests.style.backgroundColor = backgroundColor;
         }
     }
 
-    // Callback function for MutationObserver
-    function handleMutations(mutationsList) {
-        for (const mutation of mutationsList) {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
-                copyBackgroundColorNoSleepMobile('wrapper-outer', ['plugin-no-sleep-mobile']);
-            }
-        }
+    const observer = new MutationObserver(copyBackgroundColor);
+
+    const wrapperOuter = document.querySelector('.wrapper-outer');
+    if (wrapperOuter) {
+        observer.observe(wrapperOuter, {
+            attributes: true,
+            attributeFilter: ['style'],
+        });
     }
 
-    // Create an observer instance linked to the callback function
-    const observer = new MutationObserver(handleMutations);
+    copyBackgroundColor();
 
-    // Once the DOM is fully loaded, set up the observer
     window.addEventListener('DOMContentLoaded', (event) => {
-        const targetNode = document.getElementById('wrapper-outer');
-        if (targetNode) {
-            // Start observing the target node for attribute changes
-            observer.observe(targetNode, { attributes: true, attributeFilter: ['style'] });
-            // Initial check in case the background colour is already rgba when DOM is loaded
-            copyBackgroundColorNoSleepMobile('wrapper-outer', ['plugin-no-sleep-mobile']);
-        }
+        setInterval(() => {
+            copyBackgroundColor();
+        }, 200);
 
-        // Stop observing after a set time
-        setTimeout(() => {
-            observer.disconnect();
-        }, 300000);
+        setInterval(() => {
+            copyBackgroundColor();
+        }, 2000);
     });
 }
