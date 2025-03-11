@@ -2,13 +2,13 @@
 
 This plugin adds a button to the bottom of your FM-DX-Webserver page, preventing display sleep and enabling wake lock, for Android and iOS browsers.
 
-> [!NOTE]
-> This plugin is not required if the server is running HTTPS.
-
 * [Download the latest zip file](https://github.com/AmateurAudioDude/FM-DX-Webserver-Plugin-No-Sleep-Mobile/archive/refs/heads/main.zip)
 * Transfer `NoSleepMobile` folder, and `NoSleepMobile.js` to FM-DX-Webserver `plugins` folder
 * Restart FM-DX-Webserver if required
 * Login to Adminstrator Panel and enable plugin
+
+> [!NOTE]
+> This plugin is not required if the server is running HTTPS.
 
 v1.0.4
 ------
