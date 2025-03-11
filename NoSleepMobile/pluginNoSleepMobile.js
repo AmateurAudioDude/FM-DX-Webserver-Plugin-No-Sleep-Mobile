@@ -1,11 +1,14 @@
 /*
-	No Sleep Mobile v1.0.3 by AAD
+	No Sleep Mobile v1.0.4 by AAD
 	https://github.com/AmateurAudioDude/FM-DX-Webserver-Plugin-No-Sleep-Mobile
 */
 
 (() => {
 
+const hideIfHttps = true;
+
 if (/Mobi|Android|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent)) {
+    if (hideIfHttps && window.location.protocol === 'https:') return;
 // Global variable for other plugins
 pluginNoSleepMobile = true;
 
