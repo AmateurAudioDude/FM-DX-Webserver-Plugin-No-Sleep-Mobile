@@ -27,7 +27,7 @@ let buttonHTML = `
                   text-transform: uppercase; border-radius: 14px;`;
 
 const mobileTray = document.getElementById("mobileTray");
-if (mobileTray) buttonHTML += ` margin-top: -72px;`;
+if (mobileTray && window.matchMedia("(orientation: portrait)").matches) buttonHTML += ` margin-top: -72px;`;
 
 buttonHTML += `">
 </div>`;
