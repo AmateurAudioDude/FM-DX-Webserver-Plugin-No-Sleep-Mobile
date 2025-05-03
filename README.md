@@ -10,6 +10,10 @@ This plugin adds a button to the bottom of your FM-DX-Webserver page, preventing
 > [!NOTE]
 > This plugin is not required if the server is running HTTPS.
 
+v1.0.5
+------
+* Fix for FM-DX Webserver v1.3.8 compatibility issues
+
 v1.0.4
 ------
 * Added option to hide button if server is HTTPS
