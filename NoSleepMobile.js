@@ -1,7 +1,7 @@
 // Plugin configuration, this is used in the administration when plugins are loaded
 var pluginConfig = {
     name: 'No Sleep Mobile',
-    version: '1.0.4',
+    version: '1.0.5',
     author: 'AAD',
     frontEndPath: 'NoSleepMobile/pluginNoSleepMobile.js'
 }
